@@ -4,6 +4,7 @@ import {
   createMamuUser,
   createPermission,
   createRoles,
+  deleteMamuUser,
   deletePermission,
   deleteRole,
   getAllPermission,
@@ -14,6 +15,7 @@ import {
   statusMamuUserUpdate,
   statusPermissionUpdate,
   statusRoleUpdate,
+  userMamuUpdate,
 } from "./userApiSlice";
 
 //create user slice
@@ -146,6 +148,24 @@ const userSlice = createSlice({
         state.user[
           state.user.findIndex((data) => data._id == action.payload.user._id)
         ] = action.payload.user;
+      })
+      .addCase(deleteMamuUser.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
+      .addCase(deleteMamuUser.fulfilled, (state, action) => {
+        state.user = state.user.filter(
+          (data) => data._id !== action.payload.user._id
+        );
+        state.message = action.payload.message;
+      })
+      .addCase(userMamuUpdate.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
+      .addCase(userMamuUpdate.fulfilled, (state, action) => {
+        state.user[
+          state.user.findIndex((data) => data._id === action.payload.user._id)
+        ] = action.payload.user;
+        state.message = action.payload.message;
       });
   },
 });

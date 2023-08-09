@@ -35,7 +35,6 @@ const Roles = () => {
   //handleRole Edit
   const handleRoleEdit = (id) => {
     const findRole = role.find((data) => data._id === id);
-    console.log(findRole);
     setEdit(findRole);
     setSelected(findRole.permissions);
   };

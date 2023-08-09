@@ -14,8 +14,11 @@ import {
 } from "../../features/user/userSlice";
 import {
   createMamuUser,
+  deleteMamuUser,
   statusMamuUserUpdate,
+  userMamuUpdate,
 } from "../../features/user/userApiSlice";
+import swal from "sweetalert";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -28,6 +31,9 @@ const Users = () => {
     role: "",
   });
 
+  //for edit
+  const [edit, setEdit] = useState("");
+
   //random password genarator
   const randomPass = generateRandomPassword(20);
 
@@ -39,19 +45,68 @@ const Users = () => {
     }));
   };
 
-  // const handleOptionChange = (e) => {
-  //   console.log(e.target.value);
-  // };
-
   //create User
   const handleUserSubmit = (e) => {
     e.preventDefault();
     dispatch(createMamuUser(input));
+    resetForm();
   };
 
   //status update
   const handleStautsUpdate = (status, id) => {
     dispatch(statusMamuUserUpdate({ status, id }));
+  };
+
+  //handle Delate
+  const handleDelate = (id) => {
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        dispatch(deleteMamuUser(id));
+        swal("Poof! Your imaginary file has been deleted!", {
+          icon: "success",
+        });
+      } else {
+        swal("Your imaginary file is safe!");
+      }
+    });
+  };
+
+  //handle User delete
+  const handleUserEdit = (id) => {
+    const findUser = user.find((data) => data._id === id);
+    setEdit(findUser);
+  };
+
+  //handle change for user edit
+  const handleUserEditChange = (e) => {
+    setEdit((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  // user edit submit handler
+  const handleUserEditSubmit = (e) => {
+    e.preventDefault();
+    dispatch(
+      userMamuUpdate({
+        id: edit._id,
+        name: edit.name,
+        email: edit.email,
+        role: edit.role,
+      })
+    );
+    setEdit({
+      name: "",
+      email: "",
+      role: "",
+    });
   };
 
   useEffect(() => {
@@ -133,6 +188,52 @@ const Users = () => {
             </div>
           </form>
         </ModalPopup>
+
+        <ModalPopup target="userEdit" title="Update User">
+          <form action="" onSubmit={handleUserEditSubmit}>
+            <div className="my-3">
+              <label htmlFor="">Name</label>
+              <input
+                type="text"
+                name="name"
+                value={edit.name}
+                onChange={handleUserEditChange}
+                className="form-control"
+              />
+            </div>
+            <div className="my-3">
+              <label htmlFor="">Email</label>
+              <input
+                type="text"
+                name="email"
+                value={edit.email}
+                onChange={handleUserEditChange}
+                className="form-control"
+              />
+            </div>
+            <div className="my-3">
+              <select
+                name="role"
+                id=""
+                className="form-control"
+                value={edit.role}
+                onChange={handleUserEditChange}
+              >
+                <option value="">--selected--</option>
+                {role?.map((item, index) => {
+                  return (
+                    <option value={item._id} key={index}>
+                      {item.name}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <div className="my-3">
+              <input type="submit" className="btn btn-primary btn-block" />
+            </div>
+          </form>
+        </ModalPopup>
         <PageHeader title="User" />
         <div className="row">
           <div className="col">
@@ -195,12 +296,13 @@ const Users = () => {
                               <td className="text-right">
                                 <button
                                   data-toggle="modal"
-                                  data-target="#roleEdit"
+                                  data-target="#userEdit"
+                                  onClick={() => handleUserEdit(item._id)}
                                 >
                                   <BiEdit />
                                 </button>
                                 &nbsp;
-                                <button>
+                                <button onClick={() => handleDelate(item._id)}>
                                   <BsTrashFill />
                                 </button>
                               </td>

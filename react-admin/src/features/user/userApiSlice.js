@@ -262,3 +262,40 @@ export const statusMamuUserUpdate = createAsyncThunk(
     }
   }
 );
+
+//delete Permission
+export const deleteMamuUser = createAsyncThunk(
+  "user/deleteMamuUser",
+  async (id) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:5050/api/v1/mamu/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);
+
+//user Upldate
+export const userMamuUpdate = createAsyncThunk(
+  "user/userUpdate",
+  async (data) => {
+    try {
+      const response = await axios.patch(
+        `http://localhost:5050/api/v1/mamu/${data.id}`,
+        data,
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);

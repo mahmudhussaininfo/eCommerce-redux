@@ -85,7 +85,7 @@ const deleteUser = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "User delete failed" });
   }
 
-  res.json(user);
+  res.json({ message: "user delated successful", user });
 });
 
 /**
@@ -96,7 +96,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 const updateUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  const { name, email } = req.body;
+  const { name, email, role } = req.body;
 
   const findUser = await User.findById(id);
   if (!findUser) {
@@ -107,13 +107,14 @@ const updateUser = asyncHandler(async (req, res) => {
     {
       name,
       email,
+      role,
     },
     {
       new: true,
     }
   );
 
-  res.json({ message: `User updated successfull`, user });
+  res.json({ message: `${name} User updated successfull`, user });
 });
 
 //from shajib
