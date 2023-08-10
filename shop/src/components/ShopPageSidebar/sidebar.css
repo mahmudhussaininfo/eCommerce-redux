@@ -1,0 +1,40 @@
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px 0px;
+}
+.tags a {
+  background-color: rgb(255, 255, 255);
+  color: #111;
+  font-size: 12px;
+  border: 1px solid #336699;
+  padding: 10px 20px;
+  margin: 3px;
+  cursor: pointer;
+  transition: all 1s ease-in-out;
+}
+.tags a:hover {
+  background-color: #336699;
+  color: #fff;
+}
+
+.search {
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.search input {
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+}
+.search input::placeholder {
+  font-size: 15px;
+}
+.search button {
+  padding: 8px 10px;
+  background-color: #336699;
+  color: #fff;
+  cursor: pointer;
+}
