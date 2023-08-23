@@ -35,7 +35,7 @@ const Sidebar = () => {
                     <i>
                       <BiUserCheck />
                     </i>{" "}
-                    <span>Users</span>
+                    <span>users</span>
                   </Link>
                 </li>
               )}

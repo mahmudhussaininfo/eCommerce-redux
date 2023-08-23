@@ -1,4 +1,5 @@
 import product1 from "../../assets/images/shop/1.jpg";
+import { Link } from "react-router-dom";
 
 const Product = () => {
   return (
@@ -7,9 +8,9 @@ const Product = () => {
       <div className="product-wrap">
         <div className="product text-center">
           <figure className="product-media">
-            <a href="product-default.html">
+            <Link to={`/shop/1234`}>
               <img src={product1} alt="Product" width={300} height={338} />
-            </a>
+            </Link>
             <div className="product-action-horizontal">
               <a
                 href="#"
