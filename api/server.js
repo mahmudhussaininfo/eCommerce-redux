@@ -12,6 +12,7 @@ const roleRoute = require("./routes/Role");
 const authRoute = require("./routes/AuthRoute");
 const brandRoute = require("./routes/BrandRoute");
 const tagRoute = require("./routes/TagRoute");
+const catagoryRoute = require("./routes/CatagoryRoute");
 
 //initial
 const app = express();
@@ -40,6 +41,7 @@ app.use("/api/v1/role", roleRoute);
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/brand", brandRoute);
 app.use("/api/v1/tag", tagRoute);
+app.use("/api/v1/catagory", catagoryRoute);
 
 //error handler
 app.use(errorHandler);
