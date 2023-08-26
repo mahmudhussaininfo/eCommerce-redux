@@ -1,13 +1,21 @@
-const { createSlug } = require("../helper/slug");
-const Brand = require("../models/Brand");
-const asyncHandler = require("express-async-handler");
+import { createSlug } from "../helper/slug.js";
+import Brand from "../models/Brand.js";
+import asyncHandler from "express-async-handler";
+import cloudinary from "cloudinary";
+import fs from "fs";
+
+cloudinary.v2.config({
+  cloud_name: "dcli0sqrt",
+  api_key: "889969636973233",
+  api_secret: "-t-XcAw5uuAyCdq7O8TlYm1ApEM",
+});
 
 /**
  * @desc GET All Brand
  * @route GET /Brand
  * @access Private
  */
-const getAllBrand = asyncHandler(async (req, res) => {
+export const getAllBrand = asyncHandler(async (req, res) => {
   const brands = await Brand.find();
   if (brands.length > 0) {
     return res.status(200).json(brands);
@@ -21,7 +29,7 @@ const getAllBrand = asyncHandler(async (req, res) => {
  * @route POST /Brand
  * @access Private
  */
-const createBrand = asyncHandler(async (req, res) => {
+export const createBrand = asyncHandler(async (req, res) => {
   // get data
   const { name } = req.body;
 
@@ -36,6 +44,15 @@ const createBrand = asyncHandler(async (req, res) => {
   if (checkBrand) {
     return res.status(404).json({ message: "Brand already axistis" });
   }
+
+  //upload logo to cloudinary
+  fs.writeFileSync("/" + req.file.originalname, req.file.buffer);
+  const logo = await cloudinary.v2.uploader.upload(
+    "/" + req.file.originalname,
+    req.file.buffer
+  );
+  fs.unlinkSync("/" + req.file.originalname);
+  console.log(logo);
 
   // create new user data
   const brand = await Brand.create({
@@ -56,7 +73,7 @@ const createBrand = asyncHandler(async (req, res) => {
  * @route put/patch /Brand/:id
  * @access PUBLIC
  */
-const singleBrand = asyncHandler(async (req, res) => {
+export const singleBrand = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const brand = await Brand.findById(id);
@@ -72,7 +89,7 @@ const singleBrand = asyncHandler(async (req, res) => {
  * @route DELETE /Brand/:id
  * @access PRivate
  */
-const deleteBrand = asyncHandler(async (req, res) => {
+export const deleteBrand = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const brand = await Brand.findByIdAndDelete(id);
@@ -88,7 +105,7 @@ const deleteBrand = asyncHandler(async (req, res) => {
  * @route PATCH /users/:id
  * @access PUBLIC
  */
-const updateBrand = asyncHandler(async (req, res) => {
+export const updateBrand = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const { name } = req.body;
@@ -113,7 +130,7 @@ const updateBrand = asyncHandler(async (req, res) => {
  * @route PATCH /status/:id
  * @access PUBLIC
  */
-const statusUpdate = asyncHandler(async (req, res) => {
+export const statusUpdate = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const { status } = req.body;
@@ -127,12 +144,3 @@ const statusUpdate = asyncHandler(async (req, res) => {
   );
   res.status(200).json({ message: `status updated successfull`, Brand });
 });
-
-// export methods
-module.exports = {
-  getAllBrand,
-  createBrand,
-  singleBrand,
-  deleteBrand,
-  updateBrand,
-};

@@ -1,12 +1,12 @@
-const express = require("express");
-const tokenVerify = require("../middlewares/tokenVerify");
-const {
-  getAllTag,
+import express from "express";
+import { tokenVerify } from "../middlewares/tokenVerify.js";
+import {
   createTag,
+  deleteTag,
+  getAllTag,
   singleTag,
   updateTag,
-  deleteTag,
-} = require("../controllers/tagController");
+} from "../controllers/tagController.js";
 
 //router
 const router = express.Router();
@@ -24,4 +24,4 @@ router
   .delete(deleteTag);
 
 //export
-module.exports = router;
+export default router;

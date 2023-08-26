@@ -1,6 +1,6 @@
-const { createSlug } = require("../helper/slug");
-const Permission = require("../models/Permission");
-const asyncHandler = require("express-async-handler");
+import { createSlug } from "../helper/slug.js";
+import Permission from "../models/Permission.js";
+import asyncHandler from "express-async-handler";
 
 // const bcrypt = require("bcrypt");
 
@@ -9,7 +9,7 @@ const asyncHandler = require("express-async-handler");
  * @route GET /permission
  * @access Private
  */
-const getAllPermission = asyncHandler(async (req, res) => {
+export const getAllPermission = asyncHandler(async (req, res) => {
   const permission = await Permission.find();
 
   if (permission.length > 0) {
@@ -22,7 +22,7 @@ const getAllPermission = asyncHandler(async (req, res) => {
  * @route POST /permission
  * @access Private
  */
-const createPermission = asyncHandler(async (req, res) => {
+export const createPermission = asyncHandler(async (req, res) => {
   // get data
   const { name } = req.body;
 
@@ -59,7 +59,7 @@ const createPermission = asyncHandler(async (req, res) => {
  * @route put/patch /permission/:id
  * @access PUBLIC
  */
-const singlePermission = asyncHandler(async (req, res) => {
+export const singlePermission = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const permissionData = await Permission.findById(id);
@@ -75,7 +75,7 @@ const singlePermission = asyncHandler(async (req, res) => {
  * @route DELETE /permission/:id
  * @access PRivate
  */
-const deletePermission = asyncHandler(async (req, res) => {
+export const deletePermission = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const permission = await Permission.findByIdAndDelete(id);
@@ -93,7 +93,7 @@ const deletePermission = asyncHandler(async (req, res) => {
  * @route PATCH /users/:id
  * @access PUBLIC
  */
-const updatePermission = asyncHandler(async (req, res) => {
+export const updatePermission = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const { name } = req.body;
@@ -118,7 +118,7 @@ const updatePermission = asyncHandler(async (req, res) => {
  * @route PATCH /status/:id
  * @access PUBLIC
  */
-const statusUpdate = asyncHandler(async (req, res) => {
+export const statusUpdate = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const { status } = req.body;
@@ -132,13 +132,3 @@ const statusUpdate = asyncHandler(async (req, res) => {
   );
   res.status(200).json({ message: `status updated successfull`, permission });
 });
-
-// export methods
-module.exports = {
-  getAllPermission,
-  createPermission,
-  singlePermission,
-  deletePermission,
-  updatePermission,
-  statusUpdate,
-};

@@ -1,7 +1,7 @@
-const User = require("../models/User");
-const asyncHandler = require("express-async-handler");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import User from "../models/User.js";
+import asyncHandler from "express-async-handler";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 /**
  * @desc get access User
@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
  * @access PUBLIC
  */
 
-const userLogin = asyncHandler(async (req, res) => {
+export const userLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -75,7 +75,7 @@ const userLogin = asyncHandler(async (req, res) => {
   });
 });
 
-const register = asyncHandler(async (req, res) => {
+export const register = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
@@ -110,7 +110,7 @@ const register = asyncHandler(async (req, res) => {
 });
 
 //logout user
-const logout = asyncHandler(async (req, res) => {
+export const logout = asyncHandler(async (req, res) => {
   res.clearCookie("accessToken");
   res.status(200).json({
     message: "logout successfully done",
@@ -118,12 +118,12 @@ const logout = asyncHandler(async (req, res) => {
 });
 
 //logged in User
-const loggedInUser = asyncHandler(async (req, res) => {
+export const loggedInUser = asyncHandler(async (req, res) => {
   res.status(200).json(req.me);
 });
 
 //update
-const userUpdate = asyncHandler(async (req, res) => {
+export const userUpdate = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { name, email } = req.body;
   const users = User.findByIdAndUpdate(
@@ -135,12 +135,3 @@ const userUpdate = asyncHandler(async (req, res) => {
   );
   res.json({ message: `user updated successfull`, users });
 });
-
-//export
-module.exports = {
-  userLogin,
-  register,
-  logout,
-  loggedInUser,
-  userUpdate,
-};

@@ -1,13 +1,13 @@
-const express = require("express");
-const tokenVerify = require("../middlewares/tokenVerify");
-const {
-  getAllRole,
+import express from "express";
+import { tokenVerify } from "../middlewares/tokenVerify.js";
+import {
   createRole,
-  singleRole,
   deleteRole,
-  updateRole,
+  getAllRole,
+  singleRole,
   statusRoleUpdate,
-} = require("../controllers/roleController");
+  updateRole,
+} from "../controllers/roleController.js";
 
 //router
 const router = express.Router();
@@ -27,4 +27,4 @@ router
 router.patch("/status/:id", statusRoleUpdate);
 
 //export
-module.exports = router;
+export default router;

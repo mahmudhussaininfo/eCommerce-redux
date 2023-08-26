@@ -1,12 +1,12 @@
-const express = require("express");
-const {
-  userLogin,
-  register,
-  logout,
+import express from "express";
+import { tokenVerify } from "../middlewares/tokenVerify.js";
+import {
   loggedInUser,
+  logout,
+  register,
+  userLogin,
   userUpdate,
-} = require("../controllers/authController");
-const tokenVerify = require("../middlewares/tokenVerify");
+} from "../controllers/authController.js";
 
 //router
 const router = express.Router();
@@ -19,4 +19,4 @@ router.route("/me").get(tokenVerify, loggedInUser);
 router.route("/:id").patch(userUpdate);
 
 //export
-module.exports = router;
+export default router;

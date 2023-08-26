@@ -1,9 +1,9 @@
-const User = require("../models/User");
-const asyncHandler = require("express-async-handler");
-const bcrypt = require("bcrypt");
-const { sendMail } = require("../utils/mail");
+import User from "../models/User.js";
+import asyncHandler from "express-async-handler";
+import bcrypt from "bcrypt";
+import { sendMail } from "../utils/mail.js";
 
-const getAllUser = asyncHandler(async (req, res) => {
+export const getAllUser = asyncHandler(async (req, res) => {
   const user = await User.find().populate("role");
   if (user.length > 0) {
     return res.status(200).json(user);
@@ -15,7 +15,7 @@ const getAllUser = asyncHandler(async (req, res) => {
  * @route GET /users/:id
  * @access PUBLIC
  */
-const getSingleUser = asyncHandler(async (req, res) => {
+export const getSingleUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const user = await User.findById(id).select("-password").lean();
@@ -32,7 +32,7 @@ const getSingleUser = asyncHandler(async (req, res) => {
  * @route POST /users
  * @access PUBLIC
  */
-const createUser = asyncHandler(async (req, res) => {
+export const createUser = asyncHandler(async (req, res) => {
   // get data
   const { name, email, password, role } = req.body;
 
@@ -76,7 +76,7 @@ const createUser = asyncHandler(async (req, res) => {
  * @route DELETE /users/:id
  * @access PUBLIC
  */
-const deleteUser = asyncHandler(async (req, res) => {
+export const deleteUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const user = await User.findByIdAndDelete(id);
@@ -93,7 +93,7 @@ const deleteUser = asyncHandler(async (req, res) => {
  * @route PATCH /users/:id
  * @access PUBLIC
  */
-const updateUser = asyncHandler(async (req, res) => {
+export const updateUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const { name, email, role } = req.body;
@@ -146,7 +146,7 @@ const updateUser = asyncHandler(async (req, res) => {
  * @route PATCH /status/:id
  * @access PUBLIC
  */
-const statusUserUpdate = asyncHandler(async (req, res) => {
+export const statusUserUpdate = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const { status } = req.body;
@@ -167,7 +167,7 @@ const statusUserUpdate = asyncHandler(async (req, res) => {
  * @method POST
  * @access public
  */
-const changePass = asyncHandler(async (req, res) => {
+export const changePass = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { oldPass, newPass } = req.body;
 
@@ -194,14 +194,3 @@ const changePass = asyncHandler(async (req, res) => {
     .status(200)
     .json({ data: changeData, message: "Password change successful.." });
 });
-
-// export methods
-module.exports = {
-  getAllUser,
-  createUser,
-  getSingleUser,
-  deleteUser,
-  updateUser,
-  changePass,
-  statusUserUpdate,
-};

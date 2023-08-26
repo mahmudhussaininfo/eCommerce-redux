@@ -1,12 +1,13 @@
-const express = require("express");
-const tokenVerify = require("../middlewares/tokenVerify");
-const {
-  getAllBrand,
+import express from "express";
+import { tokenVerify } from "../middlewares/tokenVerify.js";
+import brandLogo from "../utils/multer.js";
+import {
   createBrand,
+  deleteBrand,
+  getAllBrand,
   singleBrand,
   updateBrand,
-  deleteBrand,
-} = require("../controllers/brandController");
+} from "../controllers/brandController.js";
 
 //router
 const router = express.Router();
@@ -15,7 +16,7 @@ const router = express.Router();
 router.use(tokenVerify);
 
 //routing
-router.route("/").get(getAllBrand).post(createBrand);
+router.route("/").get(getAllBrand).post(brandLogo, createBrand);
 router
   .route("/:id")
   .get(singleBrand)
@@ -24,4 +25,4 @@ router
   .delete(deleteBrand);
 
 //export
-module.exports = router;
+export default router;

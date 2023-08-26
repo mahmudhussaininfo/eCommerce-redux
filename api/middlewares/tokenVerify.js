@@ -1,8 +1,8 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
-const asyncHandler = require("express-async-handler");
+import Jwt from "jsonwebtoken";
+import User from "../models/User.js";
+import asyncHandler from "express-async-handler";
 
-const tokenVerify = (req, res, next) => {
+export const tokenVerify = (req, res, next) => {
   // const authHeader = req.headers.authorization || req.headers.Authorization;
   const accessToken = req.cookies.accessToken;
 
@@ -13,7 +13,7 @@ const tokenVerify = (req, res, next) => {
   }
 
   //final verify token
-  jwt.verify(
+  Jwt.verify(
     accessToken,
     process.env.ACCESS_TOKEN_SECRET,
     asyncHandler(async (err, decode) => {
@@ -30,6 +30,3 @@ const tokenVerify = (req, res, next) => {
     })
   );
 };
-
-//export
-module.exports = tokenVerify;

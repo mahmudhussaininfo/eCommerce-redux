@@ -1,12 +1,12 @@
-const express = require("express");
-const tokenVerify = require("../middlewares/tokenVerify");
-const {
-  getAllCatagory,
+import express from "express";
+import { tokenVerify } from "../middlewares/tokenVerify.js";
+import {
   createCatagory,
+  deleteCatagory,
+  getAllCatagory,
   singleCatagory,
   updateCatagory,
-  deleteCatagory,
-} = require("../controllers/catagoryController");
+} from "../controllers/catagoryController.js";
 
 //router
 const router = express.Router();
@@ -24,4 +24,4 @@ router
   .delete(deleteCatagory);
 
 //export
-module.exports = router;
+export default router;

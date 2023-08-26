@@ -2,7 +2,7 @@
 const allowedOrigins = ["http://localhost:9090/"];
 
 // cors options
-const corsOptions = {
+export const corsOptions = {
   origin: (origin, callback) => {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
@@ -13,6 +13,3 @@ const corsOptions = {
   credential: true,
   optionsSuccessStatus: 200,
 };
-
-// exports
-module.exports = corsOptions;

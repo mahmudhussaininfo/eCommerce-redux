@@ -1,14 +1,14 @@
-const express = require("express");
-const {
-  getAllUser,
-  createUser,
-  getSingleUser,
-  deleteUser,
-  updateUser,
+import express from "express";
+import { tokenVerify } from "../middlewares/tokenVerify.js";
+import {
   changePass,
+  createUser,
+  deleteUser,
+  getAllUser,
+  getSingleUser,
   statusUserUpdate,
-} = require("../controllers/userController");
-const tokenVerify = require("../middlewares/tokenVerify");
+  updateUser,
+} from "../controllers/userController.js";
 
 //router
 const router = express.Router();
@@ -17,6 +17,7 @@ const router = express.Router();
 router.use(tokenVerify);
 
 //routing
+
 router.route("/").get(getAllUser).post(createUser);
 router.route("/:id").get(getSingleUser).delete(deleteUser).patch(updateUser);
 router.route("/password/:id").post(changePass);
@@ -24,4 +25,4 @@ router.route("/password/:id").post(changePass);
 router.patch("/status/:id", statusUserUpdate);
 
 //export
-module.exports = router;
+export default router;

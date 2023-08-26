@@ -1,18 +1,19 @@
-const express = require("express");
-const colors = require("colors");
-const dotenv = require("dotenv").config();
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
-const mongoDBConnect = require("./config/db");
-const corsOptions = require("./config/corsSetup");
-const errorHandler = require("./middlewares/errorHandler");
-const userRoute = require("./routes/UserRoutes");
-const permissionRoute = require("./routes/Permission");
-const roleRoute = require("./routes/Role");
-const authRoute = require("./routes/AuthRoute");
-const brandRoute = require("./routes/BrandRoute");
-const tagRoute = require("./routes/TagRoute");
-const catagoryRoute = require("./routes/CatagoryRoute");
+import express from "express";
+import colors from "colors";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import { mongoDBConnect } from "./config/db.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
+import userRoute from "./routes/UserRoutes.js";
+import roleRoute from "./routes/RoleRoute.js";
+import tagRoute from "./routes/TagRoute.js";
+import permissionRoute from "./routes/Permission.js";
+import authRoute from "./routes/AuthRoute.js";
+import catagoryRoute from "./routes/CatagoryRoute.js";
+import brandRoute from "./routes/BrandRoute.js";
+
+dotenv.config();
 
 //initial
 const app = express();
@@ -36,12 +37,12 @@ app.use(express.static("public"));
 
 //routing
 app.use("/api/v1/mamu", userRoute);
-app.use("/api/v1/permission", permissionRoute);
 app.use("/api/v1/role", roleRoute);
-app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/brand", brandRoute);
 app.use("/api/v1/tag", tagRoute);
+app.use("/api/v1/permission", permissionRoute);
+app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/catagory", catagoryRoute);
+app.use("/api/v1/brand", brandRoute);
 
 //error handler
 app.use(errorHandler);

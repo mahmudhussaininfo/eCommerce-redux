@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 // schema
 const userSchema = mongoose.Schema(
@@ -32,11 +32,6 @@ const userSchema = mongoose.Schema(
       ref: "Role",
       required: true,
     },
-    // role: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "Role",
-    //   required: true,
-    // },
     active: {
       type: Boolean,
       default: true,
@@ -56,4 +51,4 @@ const userSchema = mongoose.Schema(
 );
 
 // export model
-module.exports = mongoose.model("User", userSchema);
+export default mongoose.model("User", userSchema);

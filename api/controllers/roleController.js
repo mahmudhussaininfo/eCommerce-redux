@@ -1,10 +1,9 @@
-const { createSlug } = require("../helper/slug");
-const Role = require("../models/Role");
-const asyncHandler = require("express-async-handler");
-
+import { createSlug } from "../helper/slug.js";
+import Role from "../models/Role.js";
+import asyncHandler from "express-async-handler";
 // const bcrypt = require("bcrypt");
 
-const getAllRole = asyncHandler(async (req, res) => {
+export const getAllRole = asyncHandler(async (req, res) => {
   const roles = await Role.find();
   if (roles.length > 0) {
     res.status(200).json(roles);
@@ -16,7 +15,7 @@ const getAllRole = asyncHandler(async (req, res) => {
  * @route POST /Role
  * @access Private
  */
-const createRole = asyncHandler(async (req, res) => {
+export const createRole = asyncHandler(async (req, res) => {
   // get data
   const { name, permissions } = req.body;
 
@@ -51,7 +50,7 @@ const createRole = asyncHandler(async (req, res) => {
  * @route put/patch /Role/:id
  * @access PUBLIC
  */
-const singleRole = asyncHandler(async (req, res) => {
+export const singleRole = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const roles = await Role.findById(id);
@@ -67,7 +66,7 @@ const singleRole = asyncHandler(async (req, res) => {
  * @route DELETE /Role/:id
  * @access PUBLIC
  */
-const deleteRole = asyncHandler(async (req, res) => {
+export const deleteRole = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const roles = await Role.findByIdAndDelete(id);
@@ -83,7 +82,7 @@ const deleteRole = asyncHandler(async (req, res) => {
  * @route PATCH /users/:id
  * @access PUBLIC
  */
-const updateRole = asyncHandler(async (req, res) => {
+export const updateRole = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { name, permissions } = req.body;
 
@@ -107,7 +106,7 @@ const updateRole = asyncHandler(async (req, res) => {
  * @route PATCH /status/:id
  * @access PUBLIC
  */
-const statusRoleUpdate = asyncHandler(async (req, res) => {
+export const statusRoleUpdate = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const { status } = req.body;
@@ -121,13 +120,3 @@ const statusRoleUpdate = asyncHandler(async (req, res) => {
   );
   res.status(200).json({ message: `status updated successfull`, roles });
 });
-
-// export methods
-module.exports = {
-  getAllRole,
-  createRole,
-  singleRole,
-  deleteRole,
-  updateRole,
-  statusRoleUpdate,
-};

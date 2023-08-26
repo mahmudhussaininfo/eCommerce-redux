@@ -1,13 +1,13 @@
-const { createSlug } = require("../helper/slug");
-const Catagory = require("../models/Catagory");
-const asyncHandler = require("express-async-handler");
+import { createSlug } from "../helper/slug.js";
+import Catagory from "../models/Catagory.js";
+import asyncHandler from "express-async-handler";
 
 /**
  * @desc GET All Catagory
  * @route GET /Catagory
  * @access Private
  */
-const getAllCatagory = asyncHandler(async (req, res) => {
+export const getAllCatagory = asyncHandler(async (req, res) => {
   const catagorys = await Catagory.find().populate([
     {
       path: "parentCatagory",
@@ -40,7 +40,7 @@ const getAllCatagory = asyncHandler(async (req, res) => {
  * @route POST /Catagory
  * @access Private
  */
-const createCatagory = asyncHandler(async (req, res) => {
+export const createCatagory = asyncHandler(async (req, res) => {
   // get data
   const { name, parentCatagory } = req.body;
 
@@ -77,7 +77,7 @@ const createCatagory = asyncHandler(async (req, res) => {
  * @route put/patch /Catagory/:id
  * @access PUBLIC
  */
-const singleCatagory = asyncHandler(async (req, res) => {
+export const singleCatagory = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const catagory = await Catagory.findById(id);
@@ -93,7 +93,7 @@ const singleCatagory = asyncHandler(async (req, res) => {
  * @route DELETE /Catagory/:id
  * @access PRivate
  */
-const deleteCatagory = asyncHandler(async (req, res) => {
+export const deleteCatagory = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const catagory = await Catagory.findByIdAndDelete(id);
@@ -109,7 +109,7 @@ const deleteCatagory = asyncHandler(async (req, res) => {
  * @route PATCH /users/:id
  * @access PUBLIC
  */
-const updateCatagory = asyncHandler(async (req, res) => {
+export const updateCatagory = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const { name } = req.body;
@@ -148,12 +148,3 @@ const updateCatagory = asyncHandler(async (req, res) => {
 //   );
 //   res.status(200).json({ message: `status updated successfull`, catagory});
 // });
-
-// export methods
-module.exports = {
-  getAllCatagory,
-  createCatagory,
-  singleCatagory,
-  deleteCatagory,
-  updateCatagory,
-};

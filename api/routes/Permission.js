@@ -1,13 +1,13 @@
-const express = require("express");
-const tokenVerify = require("../middlewares/tokenVerify");
-const {
-  getAllPermission,
+import express from "express";
+import { tokenVerify } from "../middlewares/tokenVerify.js";
+import {
   createPermission,
   deletePermission,
+  getAllPermission,
   singlePermission,
-  updatePermission,
   statusUpdate,
-} = require("../controllers/permissionController");
+  updatePermission,
+} from "../controllers/permissionController.js";
 
 //router
 const router = express.Router();
@@ -27,4 +27,4 @@ router
 router.patch("/status/:id", statusUpdate);
 
 //export
-module.exports = router;
+export default router;

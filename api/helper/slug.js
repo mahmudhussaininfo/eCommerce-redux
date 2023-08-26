@@ -1,4 +1,4 @@
-const createSlug = (title) => {
+export const createSlug = (title) => {
   // Remove special characters and convert to lowercase
   const cleanedTitle = title.replace(/[^\w\s]/gi, "").toLowerCase();
 
@@ -7,6 +7,3 @@ const createSlug = (title) => {
 
   return slug;
 };
-
-//export
-module.exports = { createSlug };

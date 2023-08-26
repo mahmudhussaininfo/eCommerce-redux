@@ -1,15 +1,6 @@
 import multer from "multer";
 
-const storage = multer.diskStorage({
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "_" + file.originalname);
-  },
-  destination: (req, file, cb) => {
-    cb(null, "public");
-  },
-});
+const storage = multer.memoryStorage();
+const brandLogo = multer({ storage }).single("logo");
 
-//middleware
-export const userPhotoMulter = multer({ storage }).array("users", 10);
-
-export default storage;
+export default brandLogo;

@@ -1,13 +1,13 @@
-const { createSlug } = require("../helper/slug");
-const Tag = require("../models/Tag");
-const asyncHandler = require("express-async-handler");
+import { createSlug } from "../helper/slug.js";
+import Tag from "../models/Tag.js";
+import asyncHandler from "express-async-handler";
 
 /**
  * @desc GET All Tag
  * @route GET /Tag
  * @access Private
  */
-const getAllTag = asyncHandler(async (req, res) => {
+export const getAllTag = asyncHandler(async (req, res) => {
   const tags = await Tag.find();
   if (tags.length > 0) {
     return res.status(200).json(tags);
@@ -21,7 +21,7 @@ const getAllTag = asyncHandler(async (req, res) => {
  * @route POST /Tag
  * @access Private
  */
-const createTag = asyncHandler(async (req, res) => {
+export const createTag = asyncHandler(async (req, res) => {
   // get data
   const { name } = req.body;
 
@@ -56,7 +56,7 @@ const createTag = asyncHandler(async (req, res) => {
  * @route put/patch /Tag/:id
  * @access PUBLIC
  */
-const singleTag = asyncHandler(async (req, res) => {
+export const singleTag = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const tag = await Tag.findById(id);
 
@@ -71,7 +71,7 @@ const singleTag = asyncHandler(async (req, res) => {
  * @route DELETE /Tag/:id
  * @access PRivate
  */
-const deleteTag = asyncHandler(async (req, res) => {
+export const deleteTag = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const tag = await Tag.findByIdAndDelete(id);
@@ -87,7 +87,7 @@ const deleteTag = asyncHandler(async (req, res) => {
  * @route PATCH /users/:id
  * @access PUBLIC
  */
-const updateTag = asyncHandler(async (req, res) => {
+export const updateTag = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const { name } = req.body;
@@ -106,8 +106,6 @@ const updateTag = asyncHandler(async (req, res) => {
   );
   res.json({ message: `Tag updated successful`, tag });
 });
-
-
 
 /**
  * @desc update status data
@@ -128,12 +126,3 @@ const updateTag = asyncHandler(async (req, res) => {
 //   );
 //   res.status(200).json({ message: `status updated successfull`, tag });
 // });
-
-// export methods
-module.exports = {
-  getAllTag,
-  createTag,
-  singleTag,
-  deleteTag,
-  updateTag,
-};
