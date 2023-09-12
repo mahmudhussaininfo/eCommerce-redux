@@ -20,8 +20,8 @@ router.route("/").get(getAllBrand).post(brandLogo, createBrand);
 router
   .route("/:id")
   .get(singleBrand)
-  .put(updateBrand)
-  .patch(updateBrand)
+  .put(brandLogo, updateBrand)
+  .patch(brandLogo, updateBrand)
   .delete(deleteBrand);
 
 //export

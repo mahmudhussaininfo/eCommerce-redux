@@ -1,14 +1,8 @@
 import { createSlug } from "../helper/slug.js";
 import Brand from "../models/Brand.js";
 import asyncHandler from "express-async-handler";
-import cloudinary from "cloudinary";
-import fs from "fs";
-
-cloudinary.v2.config({
-  cloud_name: "dcli0sqrt",
-  api_key: "889969636973233",
-  api_secret: "-t-XcAw5uuAyCdq7O8TlYm1ApEM",
-});
+import { cloudDelete, cloudUpload } from "../utils/coudinary.js";
+import { findPublicId } from "../helper/helpers.js";
 
 /**
  * @desc GET All Brand
@@ -32,7 +26,6 @@ export const getAllBrand = asyncHandler(async (req, res) => {
 export const createBrand = asyncHandler(async (req, res) => {
   // get data
   const { name } = req.body;
-
   // check validation
   if (!name) {
     return res.status(400).json({ message: "All fields are required" });
@@ -45,19 +38,14 @@ export const createBrand = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: "Brand already axistis" });
   }
 
-  //upload logo to cloudinary
-  fs.writeFileSync("/" + req.file.originalname, req.file.buffer);
-  const logo = await cloudinary.v2.uploader.upload(
-    "/" + req.file.originalname,
-    req.file.buffer
-  );
-  fs.unlinkSync("/" + req.file.originalname);
-  console.log(logo);
+  //upload photo to cloude
+  const logo = await cloudUpload(req);
 
   // create new user data
   const brand = await Brand.create({
     name,
     slug: createSlug(name),
+    logo: logo?.secure_url ? logo?.secure_url : null,
   });
 
   // check
@@ -93,6 +81,8 @@ export const deleteBrand = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const brand = await Brand.findByIdAndDelete(id);
+  const publicId = findPublicId(brand.logo);
+  await cloudDelete(publicId);
 
   if (!brand) {
     return res.status(400).json({ message: "Brand delete failed" });
@@ -107,7 +97,6 @@ export const deleteBrand = asyncHandler(async (req, res) => {
  */
 export const updateBrand = asyncHandler(async (req, res) => {
   const { id } = req.params;
-
   const { name } = req.body;
 
   // validation
@@ -115,14 +104,23 @@ export const updateBrand = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Brand name is required" });
   }
 
-  const brand = await Brand.findByIdAndUpdate(
-    id,
-    { name, slug: createSlug(name) },
-    {
-      new: true,
-    }
-  );
-  res.json({ message: `Brand updated successful`, brand });
+  const brandUpdate = await Brand.findById(id);
+
+  if (!brandUpdate) {
+    return res.status(404).json({ message: "Brand logo not found" });
+  }
+
+  let updateLogo = brandUpdate.logo;
+
+  if (req.file) {
+    const logo = await cloudUpload(req);
+    updateLogo = logo.secure_url;
+  }
+
+  brandUpdate.name = name;
+  brandUpdate.logo = updateLogo;
+  brandUpdate.save();
+  res.json({ brand: brandUpdate, message: `Brand updated successful` });
 });
 
 /**
