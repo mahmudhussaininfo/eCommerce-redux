@@ -1,6 +1,5 @@
 import express from "express";
 import { tokenVerify } from "../middlewares/tokenVerify.js";
-import brandLogo from "../utils/multer.js";
 import {
   createBrand,
   deleteBrand,
@@ -8,6 +7,7 @@ import {
   singleBrand,
   updateBrand,
 } from "../controllers/brandController.js";
+import { brandLogo } from "../utils/multer.js";
 
 //router
 const router = express.Router();

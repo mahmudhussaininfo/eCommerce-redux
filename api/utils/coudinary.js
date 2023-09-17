@@ -12,6 +12,12 @@ export const cloudUpload = async (req) => {
   return logo;
 };
 
+//upload photos
+export const cloudUploads = async (path) => {
+  const data = await cloudinary.v2.uploader.upload(path);
+  return data.secure_url;
+};
+
 //delete logo
 export const cloudDelete = async (publicId) => {
   const logo = await cloudinary.v2.uploader.destroy(publicId);

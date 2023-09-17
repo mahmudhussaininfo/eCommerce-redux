@@ -10,9 +10,9 @@ import { findPublicId } from "../helper/helpers.js";
  * @access Private
  */
 export const getAllBrand = asyncHandler(async (req, res) => {
-  const brands = await Brand.find();
-  if (brands.length > 0) {
-    return res.status(200).json(brands);
+  const brand = await Brand.find();
+  if (brand.length > 0) {
+    return res.status(200).json(brand);
   }
 
   return res.status(400).json({ message: "brands not found" });
@@ -39,13 +39,17 @@ export const createBrand = asyncHandler(async (req, res) => {
   }
 
   //upload photo to cloude
-  const logo = await cloudUpload(req);
+  let logoData = null;
+  if (req.file) {
+    const file = await cloudUpload(req);
+    logoData = file.secure_url;
+  }
 
   // create new user data
   const brand = await Brand.create({
     name,
     slug: createSlug(name),
-    logo: logo?.secure_url ? logo?.secure_url : null,
+    logo: logoData,
   });
 
   // check
@@ -118,6 +122,7 @@ export const updateBrand = asyncHandler(async (req, res) => {
   }
 
   brandUpdate.name = name;
+  brandUpdate.slug = createSlug(name);
   brandUpdate.logo = updateLogo;
   brandUpdate.save();
   res.json({ brand: brandUpdate, message: `Brand updated successful` });

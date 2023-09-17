@@ -11,6 +11,7 @@ import {
   getAllRole,
   getMamuUser,
 } from "./features/user/userApiSlice";
+import { getAllBrand } from "./features/product/productApiSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ function App() {
     dispatch(getAllPermission());
     dispatch(getAllRole());
     dispatch(getMamuUser());
+    dispatch(getAllBrand());
   }, [dispatch]);
 
   return (

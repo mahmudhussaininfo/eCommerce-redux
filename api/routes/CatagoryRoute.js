@@ -7,6 +7,7 @@ import {
   singleCatagory,
   updateCatagory,
 } from "../controllers/catagoryController.js";
+import { catagoryPhoto } from "../utils/multer.js";
 
 //router
 const router = express.Router();
@@ -15,12 +16,12 @@ const router = express.Router();
 router.use(tokenVerify);
 
 //routing
-router.route("/").get(getAllCatagory).post(createCatagory);
+router.route("/").get(getAllCatagory).post(catagoryPhoto, createCatagory);
 router
   .route("/:id")
   .get(singleCatagory)
-  .put(updateCatagory)
-  .patch(updateCatagory)
+  .put(catagoryPhoto, updateCatagory)
+  .patch(catagoryPhoto, updateCatagory)
   .delete(deleteCatagory);
 
 //export

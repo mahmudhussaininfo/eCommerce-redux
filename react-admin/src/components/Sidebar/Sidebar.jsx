@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { BsPersonFillGear } from "react-icons/bs";
 import { AiFillLock } from "react-icons/ai";
 import { BiUserCheck } from "react-icons/bi";
+import { BsFillPaletteFill } from "react-icons/bs";
 import useAuthUser from "../../hooks/useAuthUser";
 
 const Sidebar = () => {
@@ -65,11 +66,11 @@ const Sidebar = () => {
                     location.pathname === "/brands" ? "active" : ""
                   }`}
                 >
-                  <Link to="/brands">
+                  <Link to="/brand">
                     <i>
-                      <BiUserCheck />
+                      <BsFillPaletteFill />
                     </i>{" "}
-                    <span>Brands</span>
+                    <span>Brand</span>
                   </Link>
                 </li>
               )}
